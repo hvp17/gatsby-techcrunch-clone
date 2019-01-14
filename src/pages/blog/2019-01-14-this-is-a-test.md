@@ -9,4 +9,6 @@ tags:
 ---
 this is a body
 
-![](/img/47582617_2251033611614292_7022861779739326696_n.jpg)
+
+
+![](/img/coffee-gear.png)
