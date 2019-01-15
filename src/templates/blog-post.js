@@ -3,8 +3,21 @@ import PropTypes from "prop-types";
 import { kebabCase } from "lodash";
 import Helmet from "react-helmet";
 import { graphql, Link } from "gatsby";
+import styled from "styled-components";
 import Layout from "../components/Layout";
 import Content, { HTMLContent } from "../components/Content";
+import Img from "gatsby-image";
+
+const StyledContainer = styled.div`
+  max-width: 100%;
+`;
+
+const StyledContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 70%;
+`;
 
 export const BlogPostTemplate = ({
   content,
@@ -12,38 +25,34 @@ export const BlogPostTemplate = ({
   description,
   tags,
   title,
-  image,
+  fluidImage,
   helmet
 }) => {
   const PostContent = contentComponent || Content;
   return (
-    <section className="section">
+    <StyledContainer className="section">
       {helmet || ""}
-      image {image}
-      <div className="container content">
-        <div className="columns">
-          <div className="column is-10 is-offset-1">
-            <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
-              {title}
-            </h1>
-            <p>{description}</p>
-            <PostContent content={content} />
-            {tags && tags.length ? (
-              <div style={{ marginTop: `4rem` }}>
-                <h4>Tags</h4>
-                <ul className="taglist">
-                  {tags.map(tag => (
-                    <li key={tag + `tag`}>
-                      <Link to={`/tags/${kebabCase(tag)}/`}>{tag}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
+      <Img fluid={fluidImage} />
+      <StyledContent>
+        <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
+          {title}
+        </h1>
+        <p>{description}</p>
+        <PostContent content={content} />
+        {tags && tags.length ? (
+          <div style={{ marginTop: `4rem` }}>
+            <h4>Tags</h4>
+            <ul className="taglist">
+              {tags.map(tag => (
+                <li key={tag + `tag`}>
+                  <Link to={`/tags/${kebabCase(tag)}/`}>{tag}</Link>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-      </div>
-    </section>
+        ) : null}
+      </StyledContent>
+    </StyledContainer>
   );
 };
 
@@ -61,6 +70,7 @@ const BlogPost = ({ data }) => {
     <Layout>
       <BlogPostTemplate
         content={post.html}
+        fluidImage={post.frontmatter.image.childImageSharp.fluid}
         contentComponent={HTMLContent}
         description={post.frontmatter.description}
         helmet={
@@ -97,6 +107,13 @@ export const pageQuery = graphql`
         title
         description
         tags
+        image {
+          childImageSharp {
+            fluid(maxWidth: 2048) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
       }
     }
   }

@@ -55,6 +55,12 @@ module.exports = {
             options: {
               destinationDir: "static"
             }
+          },
+          {
+            resolve: `gatsby-transformer-remark`,
+            options: {
+              plugins: [`gatsby-remark-reading-time`]
+            }
           }
         ]
       }
