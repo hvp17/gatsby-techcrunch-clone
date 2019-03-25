@@ -25,14 +25,12 @@ export const BlogPostTemplate = ({
   description,
   tags,
   title,
-  fluidImage,
   helmet
 }) => {
   const PostContent = contentComponent || Content;
   return (
     <StyledContainer className="section">
       {helmet || ""}
-      <Img fluid={fluidImage} />
       <StyledContent>
         <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
           {title}
@@ -70,7 +68,6 @@ const BlogPost = ({ data }) => {
     <Layout>
       <BlogPostTemplate
         content={post.html}
-        fluidImage={post.frontmatter.image.childImageSharp.fluid}
         contentComponent={HTMLContent}
         description={post.frontmatter.description}
         helmet={
@@ -107,13 +104,6 @@ export const pageQuery = graphql`
         title
         description
         tags
-        image {
-          childImageSharp {
-            fluid(maxWidth: 2048) {
-              ...GatsbyImageSharpFluid
-            }
-          }
-        }
       }
     }
   }

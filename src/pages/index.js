@@ -72,11 +72,6 @@ export default class IndexPage extends React.Component {
               <PostContentContainer>
                 <span>{post.excerpt}</span>
               </PostContentContainer>
-              <ImageContainer>
-                {post.frontmatter.image && (
-                  <Img fluid={post.frontmatter.image.childImageSharp.fluid} />
-                )}
-              </ImageContainer>
             </StyledPostPreview>
           ))}
         </section>
@@ -113,13 +108,6 @@ export const pageQuery = graphql`
             title
             templateKey
             date(formatString: "MMMM DD, YYYY")
-            image {
-              childImageSharp {
-                fluid(maxWidth: 1080) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
           }
         }
       }
